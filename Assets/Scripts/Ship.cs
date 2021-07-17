@@ -7,13 +7,25 @@ public class Ship : MonoBehaviour
     [SerializeField] private float _damageValue = 10f;
     [SerializeField] private float _healValue = 10f;
     private bool _isHealthChanged;
-
+    
     public float MaxHealth => _maxHealth;
 
     public delegate void HealthValueChanged(float currentHealth);
     public event HealthValueChanged NewValueApplied;
 
-    public void IncreaseHealth()
+    private void Start()
+    {
+        _currentHealth = _maxHealth;
+    }
+    
+    private void ChangeHealthValue(float valueToChange)
+    {
+        _currentHealth += valueToChange;
+        NewValueApplied?.Invoke(_currentHealth);
+        _isHealthChanged = false;
+    }
+    
+    private void IncreaseHealth()
     {
         _isHealthChanged = true;
 
@@ -24,7 +36,7 @@ public class Ship : MonoBehaviour
             _currentHealth = _maxHealth;
     }
 
-    public void GetDamage()
+    private void GetDamage()
     {
         _isHealthChanged = true;
 
@@ -33,16 +45,5 @@ public class Ship : MonoBehaviour
 
         if (_currentHealth <= 0)
             _currentHealth = 0f;
-    }
-    
-    private void Start()
-    {
-        _currentHealth = _maxHealth;
-    }
-    private void ChangeHealthValue(float valueToChange)
-    {
-        _currentHealth += valueToChange;
-        NewValueApplied?.Invoke(_currentHealth);
-        _isHealthChanged = false;
     }
 }

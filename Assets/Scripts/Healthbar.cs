@@ -9,11 +9,7 @@ public class Healthbar : MonoBehaviour
     [SerializeField] private Gradient _gradient;
     [SerializeField] private Image _fill;
     [SerializeField] private Ship _ship;
-
-    public void ChangeGradientColor()
-    {
-        _fill.color = _gradient.Evaluate(_slider.normalizedValue);
-    }
+    
     private void Start()
     {
         _fill.color = _gradient.Evaluate(_slider.normalizedValue);
@@ -38,5 +34,10 @@ public class Healthbar : MonoBehaviour
             _slider.value = Mathf.MoveTowards(_slider.value, targetValue, Time.deltaTime * _animationTime);
             yield return null;
         }
+    }
+    
+    private void ChangeGradientColor()
+    {
+        _fill.color = _gradient.Evaluate(_slider.normalizedValue);
     }
 }
