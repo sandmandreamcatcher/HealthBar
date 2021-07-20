@@ -10,7 +10,6 @@ public class Healthbar : MonoBehaviour
     [SerializeField] private Image _fill;
     [SerializeField] private Ship _ship;
     private Coroutine _movingCoroutine;
-    private bool _IsSliderMoving;
 
     private void Start()
     {
@@ -26,25 +25,19 @@ public class Healthbar : MonoBehaviour
 
     private void OnNewValueApplied(float valueToChange)
     {
-        if (_IsSliderMoving)
-        {
+        if (_movingCoroutine != null)
             StopCoroutine(_movingCoroutine);
-        }
-        
+
         _movingCoroutine = StartCoroutine(ChangeProgressBarValue(valueToChange));
     }
 
     private IEnumerator ChangeProgressBarValue(float targetValue)
     {
-        _IsSliderMoving = true;
-
         while (_slider.value != targetValue)
         {
             _slider.value = Mathf.MoveTowards(_slider.value, targetValue, Time.deltaTime * _animationTime);
             yield return null;
-        }
-
-        _IsSliderMoving = false;
+        } 
     }
 
     private void ChangeGradientColor()
